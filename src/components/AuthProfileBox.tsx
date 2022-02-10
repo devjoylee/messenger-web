@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from 'redux/actions/setCurrentUser';
 import styled from 'styled-components';
 import { User } from 'types/user';
 
@@ -6,8 +8,12 @@ interface Props {
   user: User;
 }
 export const AuthProfileBox = ({ user }: Props) => {
+  const dispatch = useDispatch();
+  const handleSetCurrentUser = () => {
+    dispatch(setCurrentUser(user));
+  };
   return (
-    <ProfileBox>
+    <ProfileBox onClick={handleSetCurrentUser}>
       <img src={user.profileImage} alt="profile" />
       <h3>{user.userName}</h3>
     </ProfileBox>
