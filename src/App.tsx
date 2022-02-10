@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { getUser } from 'utils/getUser';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  const [user, setUser] = useState([]);
+  const [others, setOthers] = useState([]);
+  const currentUser = 'currentUser';
+  const users = 'users';
+  useEffect(() => {
+    getUser(currentUser).then(data => setUser(data));
+    getUser(users).then(data => setOthers(data));
+  }, []);
+  console.log(user);
+  console.log(others);
+
+  return <div className="App"></div>;
+};
 
 export default App;
