@@ -12,17 +12,17 @@ import { getContent } from 'redux/actions/getContent';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
+    const userFetch = async () => {
       const response = await getUserData('users');
       dispatch(getUsers(response));
       return;
     };
-    getData();
-    const getContext = async () => {
+    userFetch();
+    const contextFetch = async () => {
       const response = await getContentData();
       dispatch(getContent(response));
     };
-    getContext();
+    contextFetch();
   }, [dispatch]);
   const {
     auth: { currentUser },

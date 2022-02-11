@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { COLOR } from 'constants/';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
+import { v4 as uuidv4 } from 'uuid';
+import { editContentData } from 'utils/editContentData';
 
 interface ChatMessageProps {
   content: Content;
@@ -20,6 +22,13 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
     (user: Content) => user.userId === content.userId
   )[0];
   const isLogged = currentUser.userId === user.userId;
+
+  const handleUpdate = async () => {
+    // console.log(content.uuid);
+    await editContentData(content, '하이');
+    // console.log(content);
+  };
+
   return (
     <MessageContainer>
       <Avatar src={user.profileImage} alt={user.userName} />
@@ -33,7 +42,7 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
           </NameDateBox>
           {isLogged && (
             <ControlBox>
-              <span>✏️</span>
+              <span onClick={handleUpdate}>✏️</span>
               <span>🗑️</span>
             </ControlBox>
           )}
