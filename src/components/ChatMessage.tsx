@@ -1,22 +1,32 @@
-import React from 'react';
+import { User } from 'types/user';
+import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
 
-export const ChatMessage = () => {
+interface ChatMessageProps {
+  user: User;
+}
+
+export const ChatMessage = ({ user }: ChatMessageProps) => {
+  console.log(user);
+
+  const { userName, content, profileImage } = user;
+  const { date, text } = content;
+
   return (
     <MessageContainer>
-      <Avatar src="" alt="" />
+      <Avatar src={profileImage} alt={userName} />
       <MessageBox>
         <MessageInfo>
           <NameDateBox>
-            <Name>Name</Name>
-            <DateString>Date</DateString>
+            <Name>{userName}</Name>
+            <DateString>{getDate(date)}</DateString>
           </NameDateBox>
           <ControlBox>
             <span>수정</span>
             <span>삭제</span>
           </ControlBox>
         </MessageInfo>
-        <Message>안녕하세요 임의로 만든 메시지입니다</Message>
+        <Message>{text}</Message>
       </MessageBox>
     </MessageContainer>
   );
@@ -27,7 +37,9 @@ const MessageContainer = styled.li`
   align-items: center;
   width: 100%;
   height: 5rem;
-  /* border: 1px solid tomato; */
+  & + li {
+    margin-top: 20px;
+  }
 `;
 
 const Avatar = styled.img`
@@ -39,6 +51,9 @@ const Avatar = styled.img`
 `;
 
 const MessageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
   flex: 1;
   width: 30rem;
@@ -49,17 +64,21 @@ const MessageInfo = styled.div`
   justify-content: space-between;
   height: 1.5rem;
 `;
+
 const NameDateBox = styled.div`
-  width: 8rem;
+  display: flex;
 `;
+
 const Name = styled.span`
   font-size: 1.2rem;
   font-weight: 600;
   margin-right: 1rem;
 `;
+
 const DateString = styled.span`
   color: #d1d1d1;
 `;
+
 const ControlBox = styled.div`
   display: flex;
   justify-content: space-evenly;
@@ -68,6 +87,5 @@ const ControlBox = styled.div`
 `;
 
 const Message = styled.p`
-  height: 3.5rem;
   padding: 0.5em 0;
 `;

@@ -11,7 +11,7 @@ export const ChatSideNav = () => {
   return (
     <NavContainer>
       {users.map((user: User) => (
-        <img src={user.profileImage} alt="profile" />
+        <img src={user.profileImage} alt="profile" key={user.userId} />
       ))}
     </NavContainer>
   );

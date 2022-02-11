@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export const ChatForm = () => {
   return (
-    <FormConatiner>
+    <FormConatiner onSubmit={e => e.preventDefault()}>
       <TextInput type="text" placeholder="메시지를 입력하세요" />
       <Button type="submit" value="전송" />
     </FormConatiner>

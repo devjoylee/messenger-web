@@ -1,11 +1,20 @@
 import React from 'react';
-import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/reducers';
 import { ChatMessage } from './ChatMessage';
+import { User } from 'types/user';
+import styled from 'styled-components';
 
 export const ChatList = () => {
+  const {
+    auth: { users },
+  } = useSelector((state: RootState) => state);
+
   return (
     <ListContainer>
-      <ChatMessage />
+      {users.map((user: User) => (
+        <ChatMessage key={user.userId} user={user} />
+      ))}
     </ListContainer>
   );
 };
