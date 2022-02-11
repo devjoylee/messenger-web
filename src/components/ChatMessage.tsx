@@ -34,6 +34,7 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
           {isLogged && (
             <ControlBox>
               <span>✏️</span>
+              <span>⏎</span>
               <span>🗑️</span>
             </ControlBox>
           )}
