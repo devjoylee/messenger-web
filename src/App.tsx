@@ -14,13 +14,13 @@ const App = () => {
   useEffect(() => {
     const getData = async () => {
       const response = await getUserData('users');
-      dispatch(getUsers(response!));
+      dispatch(getUsers(response));
       return;
     };
     getData();
     const getContext = async () => {
       const response = await getContentData();
-      dispatch(getContent(response[0]));
+      dispatch(getContent(response));
     };
     getContext();
   }, [dispatch]);

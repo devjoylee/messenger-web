@@ -1,18 +1,14 @@
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from 'server/firebase';
-// import { Context } from 'types';
-
-// interface Contexts {
-//   res : Array<Context[]>
-// }
+import { Content } from 'types';
 
 export const getContentData = async () => {
   const contentRef = collection(db, 'content');
   const querySnapshot = await getDocs(contentRef);
-  let res: any = [];
+  let res: Content[] = [];
   querySnapshot.forEach(doc => {
     const data = doc.data();
-    res.push(data);
+    res = data.content;
   });
 
   return res;
