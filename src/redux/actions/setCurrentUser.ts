@@ -1,4 +1,4 @@
-import { User } from 'types/user';
+import { User } from 'types';
 import { UPDATE_CURRENT_USER } from './types';
 
 export const setCurrentUser = (user: User) => ({

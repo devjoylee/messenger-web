@@ -2,29 +2,26 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { ChatMessage } from './ChatMessage';
-import { User } from 'types/user';
+import { User } from 'types';
 import styled from 'styled-components';
 
 export const ChatList = () => {
   const {
-    auth: { users, currentUser },
+    auth: { users, currentUser, content },
   } = useSelector((state: RootState) => state);
 
-  users.sort((a: User, b: User) => a.content.date - b.content.date);
+  // users.sort((a: User, b: User) => a.content.date - b.content.date);
 
   return (
     <ListContainer>
       {users.map((user: User) => {
-        const { date, text } = user.content;
         return (
-          date &&
-          text && (
-            <ChatMessage
-              key={user.userId}
-              user={user}
-              currentUser={currentUser}
-            />
-          )
+          <ChatMessage
+            key={user.userId}
+            user={user}
+            content={content}
+            currentUser={currentUser}
+          />
         );
       })}
     </ListContainer>

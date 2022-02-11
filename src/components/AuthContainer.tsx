@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import styled from 'styled-components';
-import { User } from 'types/user';
+import { User } from 'types';
 import { AuthProfileBox } from './AuthProfileBox';
 
 export const AuthContainer = () => {
