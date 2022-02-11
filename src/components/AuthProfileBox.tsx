@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from 'redux/actions/setCurrentUser';
 import styled from 'styled-components';
-import { User } from 'types/user';
+import { User } from 'types';
 
 interface Props {
   user: User;

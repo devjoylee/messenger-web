@@ -2,10 +2,10 @@ export interface User {
   userId: number;
   userName: string;
   profileImage: string;
-  content: Content;
   date: string;
 }
-export type Content = {
+export interface Context {
   date: number;
   text: string;
-};
+  userId: number;
+}

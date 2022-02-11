@@ -1,4 +1,4 @@
-import { User } from 'types/user';
+import { Context, User } from 'types';
 import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
@@ -6,15 +6,20 @@ import { COLOR } from 'constants/';
 interface ChatMessageProps {
   user: User;
   currentUser: User;
+  content: Context;
 }
 
 interface StyleProps {
   isLogged: boolean;
 }
 
-export const ChatMessage = ({ user, currentUser }: ChatMessageProps) => {
-  const { userId, userName, content, profileImage } = user;
-  const { date, text } = content;
+export const ChatMessage = ({
+  user,
+  currentUser,
+  content,
+}: ChatMessageProps) => {
+  const { userId, userName, profileImage } = user;
+
   const isLogged = currentUser.userId === userId;
 
   return (
@@ -26,7 +31,7 @@ export const ChatMessage = ({ user, currentUser }: ChatMessageProps) => {
             <Name isLogged={isLogged}>
               {userName} {isLogged && '⭐'}
             </Name>
-            <DateString>{getDate(date)}</DateString>
+            <DateString>{getDate(content.date)}</DateString>
           </NameDateBox>
           {isLogged && (
             <ControlBox>
@@ -35,7 +40,7 @@ export const ChatMessage = ({ user, currentUser }: ChatMessageProps) => {
             </ControlBox>
           )}
         </MessageInfo>
-        <Message>{text}</Message>
+        <Message>{content.text}</Message>
       </MessageBox>
     </MessageContainer>
   );

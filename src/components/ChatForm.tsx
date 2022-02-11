@@ -1,11 +1,47 @@
 import { COLOR } from 'constants/';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { db } from 'server/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/reducers';
 
 export const ChatForm = () => {
+  const {
+    auth: { currentUser },
+  } = useSelector((state: RootState) => state);
+  const [text, setText] = useState('');
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    setText(e.currentTarget.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // console.log(currentUser.content);
+
+    await updateDoc(doc(db, 'users', currentUser.docId), {
+      content: [
+        currentUser.content,
+        {
+          text: text,
+          date: new Date(),
+        },
+      ],
+    });
+  };
   return (
-    <FormConatiner onSubmit={e => e.preventDefault()}>
-      <TextInput type="text" placeholder="메시지를 입력하세요" />
+    <FormConatiner onSubmit={handleSubmit}>
+      <TextInput
+        type="text"
+        placeholder="메시지를 입력하세요"
+        onChange={handleChange}
+        onKeyUp={e => handleChange(e)}
+      />
       <Button type="submit" value="전송" />
     </FormConatiner>
   );

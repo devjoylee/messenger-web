@@ -6,16 +6,23 @@ import { getUsers } from 'redux/actions/getUsers';
 import { RootState } from 'redux/reducers';
 import { getUser } from 'utils/getUser';
 import { ChatPage } from 'pages/chatPage';
+import { getContext } from 'utils/getContext';
+import { getContent } from 'redux/actions/getContent';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const getData = async () => {
       const response = await getUser('users');
-      dispatch(getUsers(response));
+      dispatch(getUsers(response!));
       return;
     };
     getData();
+    const getContextData = async () => {
+      const response = await getContext();
+      dispatch(getContent(response!));
+    };
+    getContextData();
   }, [dispatch]);
   const {
     auth: { currentUser },
