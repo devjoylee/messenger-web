@@ -5,6 +5,7 @@ import { COLOR } from 'constants/';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { removeContent } from 'redux/actions/removeContent';
+import { removeContentData } from 'utils/removeContentData';
 
 interface ChatMessageProps {
   message: Content;
@@ -28,10 +29,15 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
   const isLogged = currentUser.userId === user.userId;
 
   const handleRemove = () => {
-    const newContents = content.filter(
-      (data: Content) => data.uuid !== message.uuid
-    );
-    dispatch(removeContent(newContents));
+    if (window.confirm('메시지를 삭제하시겠습니까??') === true) {
+      const newContents = content.filter(
+        (data: Content) => data.uuid !== message.uuid
+      );
+      dispatch(removeContent(newContents));
+      removeContentData(newContents);
+    } else {
+      return false;
+    }
   };
   console.log(content);
 
