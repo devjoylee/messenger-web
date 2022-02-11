@@ -22,7 +22,7 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.currentTarget.value);
   };
-
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContent = {
@@ -39,15 +39,23 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       setText('');
     }
   };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      buttonRef.current?.click();
+    }
+  };
   return (
-    <FormConatiner onSubmit={handleSubmit}>
+    <FormConatiner onSubmit={handleSubmit} onKeyDown={e => handleKeyDown(e)}>
       <TextInput
         value={text}
         placeholder="메시지를 입력하세요"
         onChange={e => handleChange(e)}
         rows={1}
       />
-      <Button type="submit">➣</Button>
+      <Button type="submit" ref={buttonRef}>
+        ➣
+      </Button>
     </FormConatiner>
   );
 };
@@ -58,7 +66,7 @@ const FormConatiner = styled.form`
   justify-content: space-between;
   background-color: ${COLOR.MAIN};
   width: 100%;
-  height: 3.5rem;
+  height: 5rem;
   padding: 0 2em;
   border-radius: 15px;
 `;
