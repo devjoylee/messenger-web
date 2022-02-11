@@ -1,7 +1,7 @@
-import { Context } from 'types';
+import { Content } from 'types';
 import { GET_CONTENT } from './types';
 
-export const getContent = (content: Context) => ({
+export const getContent = (content: Content) => ({
   type: GET_CONTENT,
   payload: content,
 });

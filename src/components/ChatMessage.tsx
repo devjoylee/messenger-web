@@ -1,37 +1,35 @@
-import { Context, User } from 'types';
-import { getDate } from 'utils/getDate';
+import { Content } from 'types';
+import { getDateData } from 'utils/getDateData';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/reducers';
 
 interface ChatMessageProps {
-  user: User;
-  currentUser: User;
-  content: Context;
+  content: Content;
 }
-
 interface StyleProps {
   isLogged: boolean;
 }
 
-export const ChatMessage = ({
-  user,
-  currentUser,
-  content,
-}: ChatMessageProps) => {
-  const { userId, userName, profileImage } = user;
-
-  const isLogged = currentUser.userId === userId;
-
+export const ChatMessage = ({ content }: ChatMessageProps) => {
+  const {
+    auth: { currentUser, users },
+  } = useSelector((state: RootState) => state);
+  const user = users.filter(
+    (user: Content) => user.userId === content.userId
+  )[0];
+  const isLogged = currentUser.userId === user.userId;
   return (
     <MessageContainer>
-      <Avatar src={profileImage} alt={userName} />
+      <Avatar src={user.profileImage} alt={user.userName} />
       <MessageBox>
         <MessageInfo>
           <NameDateBox>
             <Name isLogged={isLogged}>
-              {userName} {isLogged && '⭐'}
+              {user.userName} {isLogged && '⭐'}
             </Name>
-            <DateString>{getDate(content.date)}</DateString>
+            <DateString>{getDateData(content.date)}</DateString>
           </NameDateBox>
           {isLogged && (
             <ControlBox>

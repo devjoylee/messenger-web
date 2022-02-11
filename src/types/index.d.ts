@@ -4,7 +4,7 @@ export interface User {
   profileImage: string;
   date: string;
 }
-export interface Context {
+export interface Content {
   date: number;
   text: string;
   userId: number;
