@@ -1,12 +1,4 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from 'server/firebase';
 import { Content } from 'types';
 import { getContentData } from './getContentData';
@@ -26,13 +18,4 @@ export const editContentData = async (content: Content, value: string) => {
       },
     ],
   });
-
-  // const editContentRef = collection(db, 'content');
-  // console.log(editContentRef);
-
-  // const editContentQuery = query(editContentRef, where('uuid', '==', uuid));
-  // const docRef = await getDocs(editContentQuery);
-  // console.log(docRef);
-
-  // console.log(editContentQuery);
 };
