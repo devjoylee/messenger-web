@@ -1,16 +1,21 @@
 import { User } from 'types/user';
 import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
+import { COLOR } from 'constants/';
 
 interface ChatMessageProps {
   user: User;
+  currentUser: User;
 }
 
-export const ChatMessage = ({ user }: ChatMessageProps) => {
-  console.log(user);
+interface StyleProps {
+  isLogged: boolean;
+}
 
-  const { userName, content, profileImage } = user;
+export const ChatMessage = ({ user, currentUser }: ChatMessageProps) => {
+  const { userId, userName, content, profileImage } = user;
   const { date, text } = content;
+  const isLogged = currentUser.userId === userId;
 
   return (
     <MessageContainer>
@@ -18,13 +23,17 @@ export const ChatMessage = ({ user }: ChatMessageProps) => {
       <MessageBox>
         <MessageInfo>
           <NameDateBox>
-            <Name>{userName}</Name>
+            <Name isLogged={isLogged}>
+              {userName} {isLogged && '⭐'}
+            </Name>
             <DateString>{getDate(date)}</DateString>
           </NameDateBox>
-          <ControlBox>
-            <span>수정</span>
-            <span>삭제</span>
-          </ControlBox>
+          {isLogged && (
+            <ControlBox>
+              <span>✏️</span>
+              <span>🗑️</span>
+            </ControlBox>
+          )}
         </MessageInfo>
         <Message>{text}</Message>
       </MessageBox>
@@ -63,16 +72,18 @@ const MessageInfo = styled.div`
   display: flex;
   justify-content: space-between;
   height: 1.5rem;
+  margin-right: 2rem;
 `;
 
 const NameDateBox = styled.div`
   display: flex;
 `;
 
-const Name = styled.span`
+const Name = styled.span<StyleProps>`
   font-size: 1.2rem;
   font-weight: 600;
   margin-right: 1rem;
+  color: ${({ isLogged }) => (isLogged ? COLOR.LOGGED : '#fff')};
 `;
 
 const DateString = styled.span`
@@ -82,8 +93,15 @@ const DateString = styled.span`
 const ControlBox = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 8rem;
-  margin-right: 3rem;
+  font-size: 25px;
+
+  span {
+    cursor: pointer;
+    display: inline-block;
+    & + span {
+      margin-left: 1rem;
+    }
+  }
 `;
 
 const Message = styled.p`
