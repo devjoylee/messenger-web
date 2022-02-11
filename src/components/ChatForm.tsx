@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,7 +6,11 @@ import { RootState } from 'redux/reducers';
 import { updateContentData } from 'utils/updateContentData';
 import { updateContent } from 'redux/actions/updateContent';
 
-export const ChatForm = () => {
+interface ChatFormProps {
+  setToBottom: Dispatch<SetStateAction<boolean>>;
+}
+
+export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const [text, setText] = useState('');
   const {
     auth: { currentUser },
@@ -33,6 +37,7 @@ export const ChatForm = () => {
     if (text) {
       dispatch(updateContent(updatedContent));
       updateContentData(newContent);
+      setToBottom(true);
       setText('');
     }
   };
