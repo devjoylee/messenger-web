@@ -10,7 +10,8 @@ export const ChatList = () => {
     content: { content },
   } = useSelector((state: RootState) => state);
 
-  // users.sort((a: User, b: User) => a.content.date - b.content.date);
+  content.sort((a: Content, b: Content) => a.date - b.date);
+
   return (
     <ListContainer>
       {content.map((content: Content, i: number) => {

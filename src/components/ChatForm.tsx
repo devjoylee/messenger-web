@@ -1,16 +1,17 @@
-import { COLOR } from 'constants/';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { db } from 'server/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { COLOR } from 'constants/';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
+import { getDate } from 'utils/getDate';
 
 export const ChatForm = () => {
+  const [text, setText] = useState('');
   const {
     auth: { currentUser },
   } = useSelector((state: RootState) => state);
-  const [text, setText] = useState('');
 
   const handleChange = (
     e:
@@ -22,22 +23,21 @@ export const ChatForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(currentUser.content);
 
-    await updateDoc(doc(db, 'users', currentUser.docId), {
-      content: [
-        currentUser.content,
-        {
-          text: text,
-          date: new Date(),
-        },
-      ],
+    await updateDoc(doc(db, 'content', 'E1bHxak2ZndSED1tkXdp'), {
+      content: arrayUnion({
+        text: text,
+        date: getDate(new Date().getTime()),
+        userId: currentUser.userId,
+      }),
     });
   };
+
   return (
     <FormConatiner onSubmit={handleSubmit}>
       <TextInput
         type="text"
+        value={text}
         placeholder="메시지를 입력하세요"
         onChange={handleChange}
         onKeyUp={e => handleChange(e)}

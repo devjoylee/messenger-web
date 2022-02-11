@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthPage } from 'pages/authPage';
@@ -12,18 +11,21 @@ import { getContent } from 'redux/actions/getContent';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
+    const userFetch = async () => {
       const response = await getUserData('users');
       dispatch(getUsers(response));
       return;
     };
-    getData();
-    const getContext = async () => {
+
+    const contentFetch = async () => {
       const response = await getContentData();
       dispatch(getContent(response));
     };
-    getContext();
+
+    userFetch();
+    contentFetch();
   }, [dispatch]);
+
   const {
     auth: { currentUser },
     content: { content },
