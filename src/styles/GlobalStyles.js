@@ -1,3 +1,4 @@
+import { COLOR } from 'constants';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
@@ -30,6 +31,7 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 	overflow-y: scroll;
+	background-color: ${COLOR.MAIN};
 }
 ol, ul {
 	list-style: none;
