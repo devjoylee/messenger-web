@@ -8,6 +8,7 @@ import { removeContent } from 'redux/actions/removeContent';
 import { removeContentData } from 'utils/removeContentData';
 import { editContentData } from 'utils/editContentData';
 import { useState } from 'react';
+import { editContent } from 'redux/actions/editContent';
 
 interface ChatMessageProps {
   message: Content;
@@ -44,6 +45,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
   console.log(content);
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState('');
+  const dispatch = useDispatch();
 
   const handleUpdate = () => {
     setEdit(!edit);
@@ -59,7 +61,18 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   const handleEdit = async () => {
     setEdit(!edit);
-    await editContentData(content, text);
+    const newContent = await editContentData(content, text);
+    const editContents = [
+      ...newContent,
+      {
+        uuid: content.uuid,
+        text: text,
+        date: content.date,
+        userId: content.userId,
+      },
+    ];
+
+    dispatch(editContent(editContents));
   };
 
   return (

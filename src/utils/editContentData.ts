@@ -18,4 +18,6 @@ export const editContentData = async (content: Content, value: string) => {
       },
     ],
   });
+
+  return newContent;
 };
