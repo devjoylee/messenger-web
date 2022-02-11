@@ -10,11 +10,14 @@ export const ChatList = () => {
     auth: { users },
   } = useSelector((state: RootState) => state);
 
+  users.sort((a: User, b: User) => a.content.date - b.content.date);
+
   return (
     <ListContainer>
-      {users.map((user: User) => (
-        <ChatMessage key={user.userId} user={user} />
-      ))}
+      {users.map((user: User) => {
+        const { date, text } = user.content;
+        return date && text && <ChatMessage key={user.userId} user={user} />;
+      })}
     </ListContainer>
   );
 };
