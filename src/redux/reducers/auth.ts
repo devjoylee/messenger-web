@@ -12,9 +12,6 @@ export default function auth(state = initialState, action: any) {
       return { ...state, users: action.payload };
     case UPDATE_CURRENT_USER:
       return { ...state, currentUser: action.payload };
-    case GET_CONTENT:
-      return { ...state, content: action.payload };
-
     default:
       return state;
   }
