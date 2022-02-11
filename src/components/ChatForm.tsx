@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { updateContentData } from 'utils/updateContentData';
 import { updateContent } from 'redux/actions/updateContent';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ChatFormProps {
   setToBottom: Dispatch<SetStateAction<boolean>>;
@@ -28,6 +29,7 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContent = {
+      uuid: uuidv4().slice(-10),
       text: text,
       date: new Date().getTime(),
       userId: currentUser.userId,
