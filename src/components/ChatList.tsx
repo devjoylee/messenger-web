@@ -15,11 +15,6 @@ export const ChatList = ({ toBottom }: ChatListProps) => {
     content: { content },
   } = useSelector((state: RootState) => state);
   const chatListRef = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    content.sort((a: Content, b: Content) => a.date - b.date);
-  }, [content]);
-
   useEffect(() => {
     if (chatListRef.current) {
       const chat = chatListRef.current.children;
@@ -34,6 +29,7 @@ export const ChatList = ({ toBottom }: ChatListProps) => {
       }
     }
   });
+  content.sort((a: Content, b: Content) => a.date - b.date);
 
   return (
     <ListContainer ref={chatListRef}>
@@ -46,9 +42,9 @@ export const ChatList = ({ toBottom }: ChatListProps) => {
 
 const ListContainer = styled.ul`
   width: 100%;
-  flex: 1;
-  height: 42rem;
-  margin-bottom: 1rem;
+  padding-top: 1rem;
+  margin-top: auto;
+  margin-bottom: 2rem;
   overflow-y: scroll;
 
   /* Scrollbar Styling */

@@ -76,22 +76,26 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   return (
     <MessageContainer>
-      <Avatar src={user.profileImage} alt={user.userName} />
+      <ImageBox>
+        <Avatar src={user.profileImage} alt={user.userName} />
+      </ImageBox>
       <MessageBox>
         <MessageInfo>
           <NameDateBox>
             <Name isLogged={isLogged}>
-              {user.userName} {isLogged && '⭐'}
+              {user.userName} {isLogged && '*'}
             </Name>
             <DateString>{getDate(message.date)}</DateString>
           </NameDateBox>
-          {isLogged && (
-            <ControlBox>
-              <span onClick={handleUpdate}>✏️</span>
-              <span>⏎</span>
-              <span onClick={handleRemove}>🗑️</span>
-            </ControlBox>
-          )}
+          <ControlBox>
+            <span>⏎</span>
+            {isLogged && (
+              <>
+                <span onClick={handleUpdate}>✏️</span>
+                <span onClick={handleRemove}>🗑️</span>
+              </>
+            )}
+          </ControlBox>
         </MessageInfo>
         {edit === false ? (
           <Message>{message.text}</Message>
@@ -113,17 +117,19 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
 const MessageContainer = styled.li`
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
   height: 5rem;
   & + li {
     margin-top: 20px;
   }
 `;
-
+const ImageBox = styled.div`
+  height: 100%;
+`;
 const Avatar = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background: dodgerblue;
   margin-right: 1.5rem;
@@ -132,8 +138,7 @@ const Avatar = styled.img`
 const MessageBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  height: 100%;
+  height: 3.5rem;
   flex: 1;
   width: 30rem;
 `;
@@ -150,7 +155,7 @@ const NameDateBox = styled.div`
 `;
 
 const Name = styled.span<StyleProps>`
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-right: 1rem;
   color: ${({ isLogged }) => (isLogged ? COLOR.LOGGED : '#fff')};
@@ -163,7 +168,7 @@ const DateString = styled.span`
 const ControlBox = styled.div`
   display: flex;
   justify-content: space-evenly;
-  font-size: 25px;
+  font-size: 1rem;
 
   span {
     cursor: pointer;
@@ -176,6 +181,9 @@ const ControlBox = styled.div`
 
 const Message = styled.p`
   padding: 0.5em 0;
+  height: fit-content;
+  line-height: 1.5rem;
+  white-space: pre-line;
 `;
 const EditContainer = styled.div`
   display: flex;

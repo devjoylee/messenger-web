@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,11 +18,8 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
     content: { content },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement>
-  ) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.currentTarget.value);
   };
 
@@ -35,7 +32,6 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       userId: currentUser.userId,
     };
     const updatedContent = [...content, newContent];
-
     if (text) {
       dispatch(updateContent(updatedContent));
       updateContentData(newContent);
@@ -43,17 +39,15 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       setText('');
     }
   };
-
   return (
     <FormConatiner onSubmit={handleSubmit}>
       <TextInput
-        type="text"
         value={text}
         placeholder="메시지를 입력하세요"
-        onChange={handleChange}
-        onKeyUp={e => handleChange(e)}
+        onChange={e => handleChange(e)}
+        rows={1}
       />
-      <Button type="submit">전송</Button>
+      <Button type="submit">➣</Button>
     </FormConatiner>
   );
 };
@@ -69,19 +63,19 @@ const FormConatiner = styled.form`
   border-radius: 15px;
 `;
 
-const TextInput = styled.input`
-  height: 100%;
+const TextInput = styled.textarea`
   flex: 1;
   font-size: 1.2rem;
+  resize: none;
   &::placeholder {
     color: #ffffff;
   }
 `;
 const Button = styled.button`
-  width: 4.5rem;
+  width: 2.5rem;
   height: 2.5rem;
   margin-left: 2rem;
-  border-radius: 15px;
+  border-radius: 50px;
   font-size: 1rem;
   background-color: ${COLOR.BUTTON};
   cursor: pointer;
