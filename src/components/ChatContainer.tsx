@@ -1,16 +1,18 @@
 import { COLOR } from 'constants/';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ChatForm } from './ChatForm';
 import { ChatList } from './ChatList';
 import { ChatSideNav } from './ChatSideNav';
 
 export const ChatContainer = () => {
+  const [toBottom, setToBottom] = useState(false);
+
   return (
     <ChatBox>
       <ChatTitle>#PreOnboarding</ChatTitle>
-      <ChatList />
-      <ChatForm />
+      <ChatList toBottom={toBottom} />
+      <ChatForm setToBottom={setToBottom} />
       <ChatSideNav />
     </ChatBox>
   );

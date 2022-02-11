@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { removeContent } from 'redux/actions/removeContent';
 import { removeContentData } from 'utils/removeContentData';
+import { editContentData } from 'utils/editContentData';
+import { useState } from 'react';
 
 interface ChatMessageProps {
   message: Content;
@@ -40,6 +42,25 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
     }
   };
   console.log(content);
+  const [edit, setEdit] = useState(false);
+  const [text, setText] = useState('');
+
+  const handleUpdate = () => {
+    setEdit(!edit);
+  };
+
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    setText(e.currentTarget.value);
+  };
+
+  const handleEdit = async () => {
+    setEdit(!edit);
+    await editContentData(content, text);
+  };
 
   return (
     <MessageContainer>
@@ -54,13 +75,25 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
           </NameDateBox>
           {isLogged && (
             <ControlBox>
-              <span>✏️</span>
+              <span onClick={handleUpdate}>✏️</span>
               <span>⏎</span>
               <span onClick={handleRemove}>🗑️</span>
             </ControlBox>
           )}
         </MessageInfo>
-        <Message>{message.text}</Message>
+        {edit === false ? (
+          <Message>{message.text}</Message>
+        ) : (
+          <EditContainer>
+            <EditInput
+              type="text"
+              defaultValue={content.text}
+              onChange={handleChange}
+              onKeyUp={e => handleChange(e)}
+            />
+            <Edit onClick={handleEdit}>✅</Edit>
+          </EditContainer>
+        )}
       </MessageBox>
     </MessageContainer>
   );
@@ -131,4 +164,21 @@ const ControlBox = styled.div`
 
 const Message = styled.p`
   padding: 0.5em 0;
+`;
+const EditContainer = styled.div`
+  display: flex;
+  margin-top: 10px;
+`;
+const EditInput = styled.input`
+  font-size: 1rem;
+  width: 50%;
+  height: 3vh;
+  padding-left: 5px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 2px;
+`;
+const Edit = styled.div`
+  font-size: 1.4rem;
+  cursor: pointer;
 `;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthPage } from 'pages/authPage';
@@ -24,6 +23,7 @@ const App = () => {
     };
     contentFetch();
   }, [dispatch]);
+
   const {
     auth: { currentUser },
   } = useSelector((state: RootState) => state);
