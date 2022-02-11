@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthPage } from 'pages/authPage';
@@ -17,22 +16,20 @@ const App = () => {
       dispatch(getUsers(response));
       return;
     };
-    userFetch();
-    const contextFetch = async () => {
+
+    const contentFetch = async () => {
       const response = await getContentData();
       dispatch(getContent(response));
     };
-    contextFetch();
+
+    userFetch();
+    contentFetch();
   }, [dispatch]);
+
   const {
     auth: { currentUser },
-    content: { content },
   } = useSelector((state: RootState) => state);
-  return (
-    <div className="App">
-      {currentUser && content.length > 0 ? <ChatPage /> : <AuthPage />}
-    </div>
-  );
+  return <div className="App">{currentUser ? <ChatPage /> : <AuthPage />}</div>;
 };
 
 export default App;

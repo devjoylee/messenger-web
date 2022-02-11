@@ -1,17 +1,23 @@
-import { COLOR } from 'constants/';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
-import { db } from 'server/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { COLOR } from 'constants/';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'redux/reducers';
+import { updateContentData } from 'utils/updateContentData';
+import { updateContent } from 'redux/actions/updateContent';
+import { v4 as uuidv4 } from 'uuid';
 
-export const ChatForm = () => {
+interface ChatFormProps {
+  setToBottom: Dispatch<SetStateAction<boolean>>;
+}
+
+export const ChatForm = ({ setToBottom }: ChatFormProps) => {
+  const [text, setText] = useState('');
   const {
     auth: { currentUser },
+    content: { content },
   } = useSelector((state: RootState) => state);
-  const [text, setText] = useState('');
-
+  const dispatch = useDispatch();
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -22,27 +28,32 @@ export const ChatForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(currentUser.content);
+    const newContent = {
+      uuid: uuidv4().slice(-10),
+      text: text,
+      date: new Date().getTime(),
+      userId: currentUser.userId,
+    };
+    const updatedContent = [...content, newContent];
 
-    await updateDoc(doc(db, 'users', currentUser.docId), {
-      content: [
-        currentUser.content,
-        {
-          text: text,
-          date: new Date(),
-        },
-      ],
-    });
+    if (text) {
+      dispatch(updateContent(updatedContent));
+      updateContentData(newContent);
+      setToBottom(true);
+      setText('');
+    }
   };
+
   return (
     <FormConatiner onSubmit={handleSubmit}>
       <TextInput
         type="text"
+        value={text}
         placeholder="메시지를 입력하세요"
         onChange={handleChange}
         onKeyUp={e => handleChange(e)}
       />
-      <Button type="submit" value="전송" />
+      <Button type="submit">전송</Button>
     </FormConatiner>
   );
 };
@@ -66,11 +77,12 @@ const TextInput = styled.input`
     color: #ffffff;
   }
 `;
-const Button = styled.input`
+const Button = styled.button`
   width: 4.5rem;
   height: 2.5rem;
   margin-left: 2rem;
   border-radius: 15px;
   font-size: 1rem;
   background-color: ${COLOR.BUTTON};
+  cursor: pointer;
 `;
