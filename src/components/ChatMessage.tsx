@@ -8,6 +8,7 @@ import { removeContent } from 'redux/actions/removeContent';
 import { removeContentData } from 'utils/removeContentData';
 import { editContentData } from 'utils/editContentData';
 import { useState } from 'react';
+import { editContent } from 'redux/actions/editContent';
 
 interface ChatMessageProps {
   message: Content;
@@ -41,9 +42,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       return false;
     }
   };
-  console.log(content);
+
   const [edit, setEdit] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(message.text);
 
   const handleUpdate = () => {
     setEdit(!edit);
@@ -59,7 +60,18 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   const handleEdit = async () => {
     setEdit(!edit);
-    await editContentData(content, text);
+    const newContent = await editContentData(message, text);
+    const editContents = [
+      ...newContent,
+      {
+        uuid: message.uuid,
+        text: text,
+        date: message.date,
+        userId: message.userId,
+      },
+    ];
+
+    dispatch(editContent(editContents));
   };
 
   return (
@@ -87,7 +99,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
           <EditContainer>
             <EditInput
               type="text"
-              defaultValue={content.text}
+              defaultValue={message.text}
               onChange={handleChange}
               onKeyUp={e => handleChange(e)}
             />
