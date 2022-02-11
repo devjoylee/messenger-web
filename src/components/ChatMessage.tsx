@@ -2,26 +2,46 @@ import { Content } from 'types';
 import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
+import { removeContent } from 'redux/actions/removeContent';
+import { removeContentData } from 'utils/removeContentData';
 import { editContentData } from 'utils/editContentData';
 import { useState } from 'react';
 
 interface ChatMessageProps {
-  content: Content;
+  message: Content;
 }
 interface StyleProps {
   isLogged: boolean;
 }
 
-export const ChatMessage = ({ content }: ChatMessageProps) => {
+export const ChatMessage = ({ message }: ChatMessageProps) => {
   const {
+    content: { content },
     auth: { currentUser, users },
   } = useSelector((state: RootState) => state);
+
+  const dispatch = useDispatch();
+
   const user = users.filter(
-    (user: Content) => user.userId === content.userId
+    (user: Content) => user.userId === message.userId
   )[0];
+
   const isLogged = currentUser.userId === user.userId;
+
+  const handleRemove = () => {
+    if (window.confirm('메시지를 삭제하시겠습니까??') === true) {
+      const newContents = content.filter(
+        (data: Content) => data.uuid !== message.uuid
+      );
+      dispatch(removeContent(newContents));
+      removeContentData(newContents);
+    } else {
+      return false;
+    }
+  };
+  console.log(content);
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState('');
 
@@ -51,17 +71,18 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
             <Name isLogged={isLogged}>
               {user.userName} {isLogged && '⭐'}
             </Name>
-            <DateString>{getDate(content.date)}</DateString>
+            <DateString>{getDate(message.date)}</DateString>
           </NameDateBox>
           {isLogged && (
             <ControlBox>
               <span onClick={handleUpdate}>✏️</span>
-              <span>🗑️</span>
+              <span>⏎</span>
+              <span onClick={handleRemove}>🗑️</span>
             </ControlBox>
           )}
         </MessageInfo>
         {edit === false ? (
-          <Message>{content.text}</Message>
+          <Message>{message.text}</Message>
         ) : (
           <EditContainer>
             <EditInput

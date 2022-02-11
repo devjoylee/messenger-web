@@ -16,13 +16,11 @@ const App = () => {
       dispatch(getUsers(response));
       return;
     };
-
+    userFetch();
     const contentFetch = async () => {
       const response = await getContentData();
       dispatch(getContent(response));
     };
-
-    userFetch();
     contentFetch();
   }, [dispatch]);
 

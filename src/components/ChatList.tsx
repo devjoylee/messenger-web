@@ -38,7 +38,7 @@ export const ChatList = ({ toBottom }: ChatListProps) => {
   return (
     <ListContainer ref={chatListRef}>
       {content.map((content: Content, i: number) => {
-        return <ChatMessage key={`message-${i}`} content={content} />;
+        return <ChatMessage key={`message-${i}`} message={content} />;
       })}
     </ListContainer>
   );
