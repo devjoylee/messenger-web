@@ -42,10 +42,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
       return false;
     }
   };
-  console.log(content);
+
   const [edit, setEdit] = useState(false);
-  const [text, setText] = useState('');
-  const dispatch = useDispatch();
+  const [text, setText] = useState(message.text);
 
   const handleUpdate = () => {
     setEdit(!edit);
@@ -61,14 +60,14 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   const handleEdit = async () => {
     setEdit(!edit);
-    const newContent = await editContentData(content, text);
+    const newContent = await editContentData(message, text);
     const editContents = [
       ...newContent,
       {
-        uuid: content.uuid,
+        uuid: message.uuid,
         text: text,
-        date: content.date,
-        userId: content.userId,
+        date: message.date,
+        userId: message.userId,
       },
     ];
 
@@ -100,7 +99,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
           <EditContainer>
             <EditInput
               type="text"
-              defaultValue={content.text}
+              defaultValue={message.text}
               onChange={handleChange}
               onKeyUp={e => handleChange(e)}
             />
