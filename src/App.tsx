@@ -4,30 +4,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuthPage } from 'pages/authPage';
 import { getUsers } from 'redux/actions/getUsers';
 import { RootState } from 'redux/reducers';
-import { getUser } from 'utils/getUser';
+import { getUserData } from 'utils/getUserData';
 import { ChatPage } from 'pages/chatPage';
-import { getContext } from 'utils/getContext';
+import { getContentData } from 'utils/getContentData';
 import { getContent } from 'redux/actions/getContent';
 
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const getData = async () => {
-      const response = await getUser('users');
+      const response = await getUserData('users');
       dispatch(getUsers(response!));
       return;
     };
     getData();
-    const getContextData = async () => {
-      const response = await getContext();
-      dispatch(getContent(response!));
+    const getContext = async () => {
+      const response = await getContentData();
+      dispatch(getContent(response[0]));
     };
-    getContextData();
+    getContext();
   }, [dispatch]);
   const {
     auth: { currentUser },
+    content: { content },
   } = useSelector((state: RootState) => state);
-  return <div className="App">{currentUser ? <ChatPage /> : <AuthPage />}</div>;
+  return (
+    <div className="App">
+      {currentUser && content.length > 0 ? <ChatPage /> : <AuthPage />}
+    </div>
+  );
 };
 
 export default App;

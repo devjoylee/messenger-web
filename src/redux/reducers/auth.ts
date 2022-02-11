@@ -1,10 +1,6 @@
-import {
-  GET_USERS,
-  GET_CONTENT,
-  UPDATE_CURRENT_USER,
-} from 'redux/actions/types';
+import { GET_USERS, UPDATE_CURRENT_USER } from 'redux/actions/types';
 
-const initialState = { users: [], currentUser: null, content: [] };
+const initialState = { users: [], currentUser: null };
 
 export default function auth(state = initialState, action: any) {
   switch (action.type) {
