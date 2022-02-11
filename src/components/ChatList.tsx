@@ -1,35 +1,39 @@
-import { useRef, useEffect, Dispatch, SetStateAction } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { ChatMessage } from './ChatMessage';
 import { Content } from 'types';
 import styled from 'styled-components';
+import { COLOR } from 'constants/';
 
 interface ChatListProps {
   toBottom: boolean;
-  setToBottom: Dispatch<SetStateAction<boolean>>;
 }
 
-export const ChatList = ({ toBottom, setToBottom }: ChatListProps) => {
+export const ChatList = ({ toBottom }: ChatListProps) => {
   const {
     content: { content },
   } = useSelector((state: RootState) => state);
   const chatListRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
+    content.sort((a: Content, b: Content) => a.date - b.date);
+  }, [content]);
+
+  useEffect(() => {
     if (chatListRef.current) {
       const chat = chatListRef.current.children;
-      chat[chat.length - 1].scrollIntoView();
       if (toBottom) {
         chat[chat.length - 1].scrollIntoView({
           behavior: 'smooth',
         });
-        setToBottom(false);
+      } else {
+        chat[chat.length - 1].scrollIntoView({
+          behavior: 'auto',
+        });
       }
     }
   });
-
-  content.sort((a: Content, b: Content) => a.date - b.date);
 
   return (
     <ListContainer ref={chatListRef}>
@@ -46,4 +50,21 @@ const ListContainer = styled.ul`
   height: 42rem;
   margin-bottom: 1rem;
   overflow-y: scroll;
+
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: ${COLOR.MAIN};
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #777;
+  }
 `;

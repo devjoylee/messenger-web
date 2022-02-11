@@ -11,7 +11,7 @@ export const ChatContainer = () => {
   return (
     <ChatBox>
       <ChatTitle>#PreOnboarding</ChatTitle>
-      <ChatList toBottom={toBottom} setToBottom={setToBottom} />
+      <ChatList toBottom={toBottom} />
       <ChatForm setToBottom={setToBottom} />
       <ChatSideNav />
     </ChatBox>
