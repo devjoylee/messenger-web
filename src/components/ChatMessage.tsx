@@ -1,5 +1,5 @@
 import { Content } from 'types';
-import { getDateData } from 'utils/getDateData';
+import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
 import { useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
             <Name isLogged={isLogged}>
               {user.userName} {isLogged && '⭐'}
             </Name>
-            <DateString>{getDateData(content.date)}</DateString>
+            <DateString>{getDate(content.date)}</DateString>
           </NameDateBox>
           {isLogged && (
             <ControlBox>

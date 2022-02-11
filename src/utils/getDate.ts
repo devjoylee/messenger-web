@@ -1,4 +1,4 @@
-export const getDateData = (timestamp: number) => {
+export const getDate = (timestamp: number) => {
   const time = new Date(timestamp);
   const year = time.getFullYear();
   const month = addZero(time.getMonth() + 1);
