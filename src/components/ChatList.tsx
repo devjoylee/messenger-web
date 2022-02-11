@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 export const ChatList = () => {
   const {
-    auth: { users },
+    auth: { users, currentUser },
   } = useSelector((state: RootState) => state);
 
   users.sort((a: User, b: User) => a.content.date - b.content.date);
@@ -16,7 +16,16 @@ export const ChatList = () => {
     <ListContainer>
       {users.map((user: User) => {
         const { date, text } = user.content;
-        return date && text && <ChatMessage key={user.userId} user={user} />;
+        return (
+          date &&
+          text && (
+            <ChatMessage
+              key={user.userId}
+              user={user}
+              currentUser={currentUser}
+            />
+          )
+        );
       })}
     </ListContainer>
   );

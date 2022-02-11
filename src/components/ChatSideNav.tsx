@@ -3,16 +3,35 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import styled from 'styled-components';
 import { User } from 'types/user';
+import { COLOR } from 'constants/';
+
+interface StyleProps {
+  isLogged: boolean;
+}
 
 export const ChatSideNav = () => {
   const {
-    auth: { users },
+    auth: { users, currentUser },
   } = useSelector((state: RootState) => state);
+  const others = users.filter(
+    (user: User) => user.userId !== currentUser.userId
+  );
+  const loggedArr = [currentUser, ...others];
+
   return (
     <NavContainer>
-      {users.map((user: User) => (
-        <img src={user.profileImage} alt="profile" key={user.userId} />
-      ))}
+      {loggedArr.map((user: User) => {
+        const { userId } = user;
+        const isLogged = currentUser.userId === userId;
+        return (
+          <NavProfile
+            src={user.profileImage}
+            alt="profile"
+            key={user.userId}
+            isLogged={isLogged}
+          />
+        );
+      })}
     </NavContainer>
   );
 };
@@ -35,4 +54,9 @@ const NavContainer = styled.nav`
     margin-bottom: 2rem;
     border-radius: 50%;
   }
+`;
+
+const NavProfile = styled.img<StyleProps>`
+  outline: ${({ isLogged }) =>
+    isLogged ? `5px solid ${COLOR.LOGGED}` : 'none'};
 `;
