@@ -12,27 +12,22 @@ import { getContent } from 'redux/actions/getContent';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const getData = async () => {
+    const userFetch = async () => {
       const response = await getUserData('users');
       dispatch(getUsers(response));
       return;
     };
-    getData();
-    const getContext = async () => {
+    userFetch();
+    const contentFetch = async () => {
       const response = await getContentData();
       dispatch(getContent(response));
     };
-    getContext();
+    contentFetch();
   }, [dispatch]);
   const {
     auth: { currentUser },
-    content: { content },
   } = useSelector((state: RootState) => state);
-  return (
-    <div className="App">
-      {currentUser && content.length > 0 ? <ChatPage /> : <AuthPage />}
-    </div>
-  );
+  return <div className="App">{currentUser ? <ChatPage /> : <AuthPage />}</div>;
 };
 
 export default App;

@@ -7,4 +7,5 @@ export interface Content {
   date: number;
   text: string;
   userId: number;
+  uuid: string;
 }

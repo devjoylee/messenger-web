@@ -14,7 +14,7 @@ export const ChatList = () => {
   return (
     <ListContainer>
       {content.map((content: Content, i: number) => {
-        return <ChatMessage key={`message-${i}`} content={content} />;
+        return <ChatMessage key={`message-${i}`} message={content} />;
       })}
     </ListContainer>
   );

@@ -2,24 +2,39 @@ import { Content } from 'types';
 import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
+import { removeContent } from 'redux/actions/removeContent';
 
 interface ChatMessageProps {
-  content: Content;
+  message: Content;
 }
 interface StyleProps {
   isLogged: boolean;
 }
 
-export const ChatMessage = ({ content }: ChatMessageProps) => {
+export const ChatMessage = ({ message }: ChatMessageProps) => {
   const {
+    content: { content },
     auth: { currentUser, users },
   } = useSelector((state: RootState) => state);
+
+  const dispatch = useDispatch();
+
   const user = users.filter(
-    (user: Content) => user.userId === content.userId
+    (user: Content) => user.userId === message.userId
   )[0];
+
   const isLogged = currentUser.userId === user.userId;
+
+  const handleRemove = () => {
+    const newContents = content.filter(
+      (data: Content) => data.uuid !== message.uuid
+    );
+    dispatch(removeContent(newContents));
+  };
+  console.log(content);
+
   return (
     <MessageContainer>
       <Avatar src={user.profileImage} alt={user.userName} />
@@ -29,17 +44,17 @@ export const ChatMessage = ({ content }: ChatMessageProps) => {
             <Name isLogged={isLogged}>
               {user.userName} {isLogged && '⭐'}
             </Name>
-            <DateString>{getDate(content.date)}</DateString>
+            <DateString>{getDate(message.date)}</DateString>
           </NameDateBox>
           {isLogged && (
             <ControlBox>
               <span>✏️</span>
               <span>⏎</span>
-              <span>🗑️</span>
+              <span onClick={handleRemove}>🗑️</span>
             </ControlBox>
           )}
         </MessageInfo>
-        <Message>{content.text}</Message>
+        <Message>{message.text}</Message>
       </MessageBox>
     </MessageContainer>
   );
