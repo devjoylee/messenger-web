@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { db } from 'server/firebase';
 import { COLOR } from 'constants/';
-import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'redux/reducers';
-import { getDate } from 'utils/getDate';
+import { updateContentData } from 'utils/updateContentData';
+import { updateContent } from 'redux/actions/updateContent';
 
 export const ChatForm = () => {
   const [text, setText] = useState('');
   const {
     auth: { currentUser },
+    content: { content },
   } = useSelector((state: RootState) => state);
-
+  const dispatch = useDispatch();
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -23,14 +23,18 @@ export const ChatForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const newContent = {
+      text: text,
+      date: new Date().getTime(),
+      userId: currentUser.userId,
+    };
+    const updatedContent = [...content, newContent];
 
-    await updateDoc(doc(db, 'content', 'E1bHxak2ZndSED1tkXdp'), {
-      content: arrayUnion({
-        text: text,
-        date: getDate(new Date().getTime()),
-        userId: currentUser.userId,
-      }),
-    });
+    if (text) {
+      dispatch(updateContent(updatedContent));
+      updateContentData(newContent);
+      setText('');
+    }
   };
 
   return (
@@ -42,7 +46,7 @@ export const ChatForm = () => {
         onChange={handleChange}
         onKeyUp={e => handleChange(e)}
       />
-      <Button type="submit" value="전송" />
+      <Button type="submit">전송</Button>
     </FormConatiner>
   );
 };
@@ -66,11 +70,12 @@ const TextInput = styled.input`
     color: #ffffff;
   }
 `;
-const Button = styled.input`
+const Button = styled.button`
   width: 4.5rem;
   height: 2.5rem;
   margin-left: 2rem;
   border-radius: 15px;
   font-size: 1rem;
   background-color: ${COLOR.BUTTON};
+  cursor: pointer;
 `;

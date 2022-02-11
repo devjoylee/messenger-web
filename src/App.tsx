@@ -28,13 +28,8 @@ const App = () => {
 
   const {
     auth: { currentUser },
-    content: { content },
   } = useSelector((state: RootState) => state);
-  return (
-    <div className="App">
-      {currentUser && content.length > 0 ? <ChatPage /> : <AuthPage />}
-    </div>
-  );
+  return <div className="App">{currentUser ? <ChatPage /> : <AuthPage />}</div>;
 };
 
 export default App;
