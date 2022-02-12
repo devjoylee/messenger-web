@@ -12,6 +12,7 @@ import { updateContentData } from 'utils';
 import { updateContent, setReplyContent } from 'redux/actions';
 import { v4 as uuidv4 } from 'uuid';
 import { COLOR, INPUT_HEIGHT } from 'constants/';
+import { RiSendPlane2Fill } from 'react-icons/ri';
 
 interface ChatFormProps {
   setToBottom: Dispatch<SetStateAction<boolean>>;
@@ -90,7 +91,7 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
         ref={textAreaRef}
       />
       <Button type="submit" ref={buttonRef} text={text}>
-        ➣
+        <RiSendPlane2Fill />
       </Button>
     </FormConatiner>
   );
@@ -130,4 +131,7 @@ const Button = styled.button<StyleProps>`
   background-color: ${({ text }) => (text ? COLOR.BUTTON : '#777')};
   opacity: ${({ text }) => (text ? 1 : 0.6)};
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

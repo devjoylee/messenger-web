@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { User } from 'types';
 import { COLOR } from 'constants/';
+import { setCurrentUser } from 'redux/actions';
+import { RiLogoutCircleRLine } from 'react-icons/ri';
 
 interface StyleProps {
   isLogged: boolean;
@@ -24,7 +26,9 @@ export const ChatSideNav = () => {
 
   return (
     <NavContainer>
-      <LogOut onClick={handleLogOut}>⇤</LogOut>
+      <LogOut onClick={handleLogOut}>
+        <RiLogoutCircleRLine />
+      </LogOut>
       {loggedArr.map((user: User) => {
         const { userId } = user;
         const isLogged = currentUser.userId === userId;
@@ -68,7 +72,10 @@ const NavProfile = styled.img<StyleProps>`
 `;
 
 const LogOut = styled.button`
-  background-color: #e23e57;
+  background-color: ${COLOR.MAIN_LIGHT};
   border-radius: 10px;
-  font-size: 1.5rem;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

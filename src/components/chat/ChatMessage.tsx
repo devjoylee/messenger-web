@@ -6,6 +6,8 @@ import { removeContent, editContent, setReplyContent } from 'redux/actions';
 import { getDate, removeContentData, editContentData } from 'utils';
 import { COLOR, INPUT_HEIGHT } from 'constants/';
 import { Content } from 'types';
+import { HiReply } from 'react-icons/hi';
+import { RiEditFill, RiDeleteBin6Fill, RiSendPlane2Fill } from 'react-icons/ri';
 
 interface ChatMessageProps {
   message: Content;
@@ -102,13 +104,19 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
             <DateString>{getDate(message.date)}</DateString>
           </NameDateBox>
           <ControlBox>
-            <span onClick={handleReply}>⏎</span>
             {isLogged && (
               <>
-                <span onClick={handleUpdate}>✏️</span>
-                <span onClick={handleRemove}>🗑️</span>
+                <button onClick={handleUpdate}>
+                  <RiEditFill />
+                </button>
+                <button onClick={handleRemove}>
+                  <RiDeleteBin6Fill />
+                </button>
               </>
             )}
+            <button onClick={handleReply}>
+              <HiReply />
+            </button>
           </ControlBox>
         </MessageInfo>
         {edit === false ? (
@@ -120,7 +128,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
               onChange={e => handleChange(e)}
               autoFocus
             ></EditInput>
-            <Edit onClick={handleEdit}>v</Edit>
+            <Edit onClick={handleEdit}>
+              <RiSendPlane2Fill />
+            </Edit>
           </EditFormContainer>
         )}
       </MessageBox>
@@ -182,11 +192,16 @@ const ControlBox = styled.div`
   justify-content: space-evenly;
   font-size: 1rem;
 
-  span {
+  button {
+    font-size: 20px;
     cursor: pointer;
     display: inline-block;
-    & + span {
+    & + button {
       margin-left: 1rem;
+    }
+
+    svg {
+      opacity: 0.8;
     }
   }
 `;
@@ -201,10 +216,11 @@ const EditFormContainer = styled.form`
   display: flex;
   align-items: center;
   margin-top: 10px;
+  margin-right: 30px;
 `;
 const EditInput = styled.textarea`
   font-size: 1rem;
-  width: 50%;
+  width: 100%;
   height: ${INPUT_HEIGHT};
   padding: 10px;
   font: inherit;
