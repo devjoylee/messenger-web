@@ -167,17 +167,19 @@ const MessageInfo = styled.div`
 
 const NameDateBox = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const Name = styled.span<StyleProps>`
   font-size: 1rem;
   font-weight: 600;
   margin-right: 1rem;
-  color: ${({ isLogged }) => (isLogged ? COLOR.LOGGED : '#fff')};
+  color: ${({ isLogged }) => (isLogged ? COLOR.LOGGED : COLOR.TEXT)};
 `;
 
 const DateString = styled.span`
-  color: #d1d1d1;
+  opacity: 0.6;
+  font-size: 14px;
 `;
 
 const ControlBox = styled.div`
