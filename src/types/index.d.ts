@@ -11,3 +11,8 @@ export interface Content {
   userId: number;
   uuid: string;
 }
+
+export interface ReplyUser {
+  content: Content;
+  userName: string;
+}

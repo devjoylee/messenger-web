@@ -9,7 +9,7 @@ import { removeContentData } from 'utils/removeContentData';
 import { editContentData } from 'utils/editContentData';
 import { useState } from 'react';
 import { editContent } from 'redux/actions/editContent';
-import { setReplyUser } from 'redux/actions/setReplyUser';
+import { setReplyContent } from 'redux/actions/setReplyContent';
 
 interface ChatMessageProps {
   message: Content;
@@ -88,7 +88,8 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
   };
 
   const handleReply = () => {
-    dispatch(setReplyUser(user));
+    const replyObj = { content: message, userName: user.userName };
+    dispatch(setReplyContent(replyObj));
   };
 
   return (
@@ -134,9 +135,8 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 const MessageContainer = styled.li`
   display: flex;
   width: 100%;
-  height: 5rem;
   & + li {
-    margin-top: 20px;
+    margin-top: 25px;
   }
 `;
 const ImageBox = styled.div`
@@ -153,15 +153,14 @@ const Avatar = styled.img`
 const MessageBox = styled.div`
   display: flex;
   flex-direction: column;
-  height: 3.5rem;
   flex: 1;
   width: 30rem;
+  margin-top: 3px;
 `;
 
 const MessageInfo = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 1.5rem;
   margin-right: 2rem;
 `;
 
@@ -197,7 +196,7 @@ const ControlBox = styled.div`
 `;
 
 const Message = styled.p`
-  padding: 0.5em 0;
+  padding-top: 0.3em;
   height: fit-content;
   line-height: 1.5rem;
   white-space: pre-line;
@@ -210,9 +209,10 @@ const EditInput = styled.textarea`
   font-size: 1rem;
   width: 50%;
   height: 3vh;
-  padding-left: 5px;
-  background-color: #fff;
-  color: #000;
+  padding: 10px;
+  font: inherit;
+  background-color: ${COLOR.MAIN};
+  color: ${COLOR.TEXT};
   border-radius: 2px;
 `;
 const Edit = styled.div`
