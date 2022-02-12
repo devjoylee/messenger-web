@@ -71,16 +71,17 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
 
   useEffect(() => {
     if (replyObj && textAreaRef.current) {
-      const replyTemplate = `${replyObj.userName}\n ${replyObj.content.text} \n (회신)\n`;
+      const replyTemplate = `${replyObj.userName}\n${replyObj.content.text}\n(회신)\n`;
       setText(replyTemplate);
+      const lineBreakRegex = new RegExp('\\n', 'g');
+      const lineBreakCount = replyTemplate.match(lineBreakRegex)!.length;
       textAreaRef.current.focus();
-      textAreaRef.current.style.height = INPUT_HEIGHT;
-      textAreaRef.current.style.height =
-        textAreaRef.current.scrollHeight + 'px';
+      textAreaRef.current.style.height = (lineBreakCount + 1) * 20 + 'px';
       dispatch(setReplyContent(null));
       return;
     }
   }, [replyObj, dispatch]);
+
   return (
     <FormConatiner onSubmit={handleSubmit} onKeyDown={e => handleKeyDown(e)}>
       <TextInput

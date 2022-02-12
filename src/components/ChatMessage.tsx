@@ -1,7 +1,7 @@
 import { Content } from 'types';
 import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
-import { COLOR } from 'constants/';
+import { COLOR, INPUT_HEIGHT } from 'constants/';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { removeContent } from 'redux/actions/removeContent';
@@ -124,7 +124,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
               onChange={e => handleChange(e)}
               autoFocus
             ></EditInput>
-            <Edit onClick={handleEdit}>✅</Edit>
+            <Edit onClick={handleEdit}>v</Edit>
           </EditFormContainer>
         )}
       </MessageBox>
@@ -203,19 +203,29 @@ const Message = styled.p`
 `;
 const EditFormContainer = styled.form`
   display: flex;
+  align-items: center;
   margin-top: 10px;
 `;
 const EditInput = styled.textarea`
   font-size: 1rem;
   width: 50%;
-  height: 3vh;
+  height: ${INPUT_HEIGHT};
   padding: 10px;
   font: inherit;
   background-color: ${COLOR.MAIN};
   color: ${COLOR.TEXT};
-  border-radius: 2px;
+  border-radius: 3px;
+  resize: none;
 `;
 const Edit = styled.div`
-  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: 38px;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  background-color: ${COLOR.BUTTON};
+  border-radius: 3px;
   cursor: pointer;
 `;
