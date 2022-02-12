@@ -59,11 +59,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
     setEdit(!edit);
   };
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.currentTarget.value);
   };
 
@@ -83,9 +79,18 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
     dispatch(editContent(editContents));
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleEdit();
+      return;
+    }
+  };
+
   const handleReply = () => {
     dispatch(setReplyUser(user));
   };
+
   return (
     <MessageContainer>
       <ImageBox>
@@ -112,15 +117,14 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
         {edit === false ? (
           <Message>{message.text}</Message>
         ) : (
-          <EditContainer>
+          <EditFormContainer onKeyDown={e => handleKeyDown(e)}>
             <EditInput
-              type="text"
               defaultValue={message.text}
-              onChange={handleChange}
-              onKeyUp={e => handleChange(e)}
-            />
+              onChange={e => handleChange(e)}
+              autoFocus
+            ></EditInput>
             <Edit onClick={handleEdit}>✅</Edit>
-          </EditContainer>
+          </EditFormContainer>
         )}
       </MessageBox>
     </MessageContainer>
@@ -129,7 +133,6 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
 const MessageContainer = styled.li`
   display: flex;
-  /* align-items: center; */
   width: 100%;
   height: 5rem;
   & + li {
@@ -197,11 +200,11 @@ const Message = styled.p`
   line-height: 1.5rem;
   white-space: pre-line;
 `;
-const EditContainer = styled.div`
+const EditFormContainer = styled.form`
   display: flex;
   margin-top: 10px;
 `;
-const EditInput = styled.input`
+const EditInput = styled.textarea`
   font-size: 1rem;
   width: 50%;
   height: 3vh;
