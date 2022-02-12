@@ -1,5 +1,5 @@
-import { ChatContainer } from 'components/ChatContainer';
 import styled from 'styled-components';
+import { ChatContainer } from 'components/chat';
 
 export const ChatPage = () => {
   return (

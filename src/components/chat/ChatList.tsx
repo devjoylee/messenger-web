@@ -1,9 +1,9 @@
+import styled from 'styled-components';
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
-import { ChatMessage } from './ChatMessage';
+import { ChatMessage } from './';
 import { Content } from 'types';
-import styled from 'styled-components';
 import { COLOR } from 'constants/';
 
 interface ChatListProps {

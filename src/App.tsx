@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthPage } from 'pages/authPage';
-import { getUsers } from 'redux/actions/getUsers';
+import { getUsers, getContent } from 'redux/actions';
 import { RootState } from 'redux/reducers';
-import { getUserData } from 'utils/getUserData';
-import { ChatPage } from 'pages/chatPage';
-import { getContentData } from 'utils/getContentData';
-import { getContent } from 'redux/actions/getContent';
+import { AuthPage, ChatPage } from 'pages';
+import { getUserData, getContentData } from 'utils';
 
 const App = () => {
   const dispatch = useDispatch();

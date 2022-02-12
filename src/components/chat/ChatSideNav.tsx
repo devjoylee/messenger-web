@@ -1,10 +1,8 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'redux/reducers';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from 'redux/reducers';
 import { User } from 'types';
 import { COLOR } from 'constants/';
-import { setCurrentUser } from 'redux/actions/setCurrentUser';
 
 interface StyleProps {
   isLogged: boolean;

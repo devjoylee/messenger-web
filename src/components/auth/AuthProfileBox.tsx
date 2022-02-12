@@ -1,7 +1,6 @@
-import React from 'react';
+import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from 'redux/actions/setCurrentUser';
-import styled from 'styled-components';
 import { User } from 'types';
 
 interface Props {

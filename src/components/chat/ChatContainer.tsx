@@ -1,9 +1,7 @@
-import { COLOR } from 'constants/';
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ChatForm } from './ChatForm';
-import { ChatList } from './ChatList';
-import { ChatSideNav } from './ChatSideNav';
+import { useState } from 'react';
+import { COLOR } from 'constants/';
+import { ChatForm, ChatList, ChatSideNav } from './';
 
 export const ChatContainer = () => {
   const [toBottom, setToBottom] = useState(false);

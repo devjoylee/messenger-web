@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import React, {
   Dispatch,
   SetStateAction,
@@ -5,14 +6,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
-import { COLOR, INPUT_HEIGHT } from 'constants/';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'redux/reducers';
-import { updateContentData } from 'utils/updateContentData';
-import { updateContent } from 'redux/actions/updateContent';
+import { updateContentData } from 'utils';
+import { updateContent, setReplyContent } from 'redux/actions';
 import { v4 as uuidv4 } from 'uuid';
-import { setReplyContent } from 'redux/actions/setReplyContent';
+import { COLOR, INPUT_HEIGHT } from 'constants/';
 
 interface ChatFormProps {
   setToBottom: Dispatch<SetStateAction<boolean>>;

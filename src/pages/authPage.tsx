@@ -1,5 +1,6 @@
-import { AuthContainer } from 'components/AuthContainer';
 import styled from 'styled-components';
+import { AuthContainer } from 'components/auth';
+
 export const AuthPage = () => {
   return (
     <PageContainer>

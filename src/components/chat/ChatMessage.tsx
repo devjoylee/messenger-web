@@ -1,15 +1,11 @@
-import { Content } from 'types';
-import { getDate } from 'utils/getDate';
 import styled from 'styled-components';
-import { COLOR, INPUT_HEIGHT } from 'constants/';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'redux/reducers';
-import { removeContent } from 'redux/actions/removeContent';
-import { removeContentData } from 'utils/removeContentData';
-import { editContentData } from 'utils/editContentData';
-import { useState } from 'react';
-import { editContent } from 'redux/actions/editContent';
-import { setReplyContent } from 'redux/actions/setReplyContent';
+import { removeContent, editContent, setReplyContent } from 'redux/actions';
+import { getDate, removeContentData, editContentData } from 'utils';
+import { COLOR, INPUT_HEIGHT } from 'constants/';
+import { Content } from 'types';
 
 interface ChatMessageProps {
   message: Content;
