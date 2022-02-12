@@ -39,7 +39,7 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       uuid: uuidv4().slice(-10),
       text: text,
       date: new Date().getTime(),
-      userId: currentUser.userId,
+      userId: currentUser!.userId,
     };
     const updatedContent = [...content, newContent];
     if (text) {

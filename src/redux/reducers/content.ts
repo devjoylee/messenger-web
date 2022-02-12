@@ -5,10 +5,14 @@ import {
   REMOVE_CONTENT,
   SET_REPLY_CONTENT,
 } from 'redux/actions/types';
+import { ContentAction, ContentState } from 'types';
 
 const initialState = { content: [], replyObj: null };
 
-export default function content(state = initialState, action: any) {
+export default function content(
+  state: ContentState = initialState,
+  action: ContentAction
+) {
   switch (action.type) {
     case GET_CONTENT:
       return { ...state, content: action.payload };
