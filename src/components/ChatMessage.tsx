@@ -32,8 +32,16 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   const isLogged = currentUser.userId === user.userId;
 
+  const showRemoveText = (): void | string => {
+    if (message.text.length >= 10) {
+      return message.text.substr(0, 10) + '...';
+    }
+  };
+
   const handleRemove = () => {
-    if (window.confirm('메시지를 삭제하시겠습니까??') === true) {
+    if (
+      window.confirm(showRemoveText() + '메시지를 삭제하시겠습니까??') === true
+    ) {
       const newContents = content.filter(
         (data: Content) => data.uuid !== message.uuid
       );
