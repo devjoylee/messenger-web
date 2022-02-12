@@ -4,4 +4,4 @@ export const GET_CONTENT = 'get_content';
 export const REMOVE_CONTENT = 'remove_content';
 export const UPDATE_CONTENT = 'update_content';
 export const EDIT_CONTENT = 'edit_content';
-export const SET_REPLY_USER = 'set_reply_user';
+export const SET_REPLY_CONTENT = 'set_reply_content';

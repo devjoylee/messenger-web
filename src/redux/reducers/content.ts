@@ -3,9 +3,10 @@ import {
   UPDATE_CONTENT,
   EDIT_CONTENT,
   REMOVE_CONTENT,
+  SET_REPLY_CONTENT,
 } from 'redux/actions/types';
 
-const initialState = { content: [] };
+const initialState = { content: [], replyObj: null };
 
 export default function content(state = initialState, action: any) {
   switch (action.type) {
@@ -17,6 +18,8 @@ export default function content(state = initialState, action: any) {
       return { ...state, content: action.payload };
     case EDIT_CONTENT:
       return { ...state, content: action.payload };
+    case SET_REPLY_CONTENT:
+      return { ...state, replyObj: action.payload };
     default:
       return state;
   }

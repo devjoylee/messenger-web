@@ -5,3 +5,5 @@ export const COLOR = {
   LOGGED: '#F2C84B',
   TEXT: '#DFDFDF',
 };
+
+export const INPUT_HEIGHT = '20px';

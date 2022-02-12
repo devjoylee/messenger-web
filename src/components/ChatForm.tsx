@@ -6,13 +6,13 @@ import React, {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import { COLOR } from 'constants/';
+import { COLOR, INPUT_HEIGHT } from 'constants/';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'redux/reducers';
 import { updateContentData } from 'utils/updateContentData';
 import { updateContent } from 'redux/actions/updateContent';
 import { v4 as uuidv4 } from 'uuid';
-import { setReplyUser } from 'redux/actions/setReplyUser';
+import { setReplyContent } from 'redux/actions/setReplyContent';
 
 interface ChatFormProps {
   setToBottom: Dispatch<SetStateAction<boolean>>;
@@ -20,17 +20,13 @@ interface ChatFormProps {
 
 interface StyleProps {
   text?: string;
-  height?: string;
 }
-
-const INPUT_HEIGHT = '20px';
 
 export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const [text, setText] = useState('');
-  const [height, setHeight] = useState(INPUT_HEIGHT);
   const {
-    auth: { currentUser, toReply },
-    content: { content },
+    auth: { currentUser },
+    content: { content, replyObj },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
 
@@ -70,19 +66,21 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       textAreaRef.current.style.height = INPUT_HEIGHT;
       textAreaRef.current.style.height =
         textAreaRef.current.scrollHeight + 'px';
-
-      setHeight(textAreaRef.current.style.height);
     }
   };
 
   useEffect(() => {
-    if (toReply) {
-      const replyTemplate = `${toReply.userName}\n ${text} \n (회신)`;
+    if (replyObj && textAreaRef.current) {
+      const replyTemplate = `${replyObj.userName}\n${replyObj.content.text}\n(회신)\n`;
       setText(replyTemplate);
-      dispatch(setReplyUser(null));
+      const lineBreakRegex = new RegExp('\\n', 'g');
+      const lineBreakCount = replyTemplate.match(lineBreakRegex)!.length;
+      textAreaRef.current.focus();
+      textAreaRef.current.style.height = (lineBreakCount + 1) * 20 + 'px';
+      dispatch(setReplyContent(null));
       return;
     }
-  }, [toReply]);
+  }, [replyObj, dispatch]);
 
   return (
     <FormConatiner onSubmit={handleSubmit} onKeyDown={e => handleKeyDown(e)}>
