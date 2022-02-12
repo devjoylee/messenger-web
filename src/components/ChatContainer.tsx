@@ -22,7 +22,7 @@ const ChatBox = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 7rem);
+  width: calc(100% - 7rem);
   height: 100vh;
   padding: 2em;
   background-color: ${COLOR.MAIN_LIGHT};

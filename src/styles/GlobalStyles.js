@@ -22,7 +22,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 	box-sizing: border-box;
 	font-family: 'Noto Sans KR', sans-serif;
-	color: #ffffff;
+	color: ${COLOR.TEXT};
 }
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
@@ -30,7 +30,6 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
-	overflow-y: scroll;
 	background-color: ${COLOR.MAIN};
 }
 ol, ul {
