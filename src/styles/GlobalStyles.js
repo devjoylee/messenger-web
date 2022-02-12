@@ -52,7 +52,7 @@ a{
   text-decoration: none;
   color: #000;
 }
-button, input {
+button, input, textarea {
 	background: none;
 	color: inherit;
 	border: none;
