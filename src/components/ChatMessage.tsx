@@ -9,6 +9,7 @@ import { removeContentData } from 'utils/removeContentData';
 import { editContentData } from 'utils/editContentData';
 import { useState } from 'react';
 import { editContent } from 'redux/actions/editContent';
+import { setReplyUser } from 'redux/actions/setReplyUser';
 
 interface ChatMessageProps {
   message: Content;
@@ -74,6 +75,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
     dispatch(editContent(editContents));
   };
 
+  const handleReply = () => {
+    dispatch(setReplyUser(user));
+  };
   return (
     <MessageContainer>
       <ImageBox>
@@ -88,7 +92,7 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
             <DateString>{getDate(message.date)}</DateString>
           </NameDateBox>
           <ControlBox>
-            <span>⏎</span>
+            <span onClick={handleReply}>⏎</span>
             {isLogged && (
               <>
                 <span onClick={handleUpdate}>✏️</span>

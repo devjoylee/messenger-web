@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { COLOR } from 'constants/';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,6 +12,7 @@ import { RootState } from 'redux/reducers';
 import { updateContentData } from 'utils/updateContentData';
 import { updateContent } from 'redux/actions/updateContent';
 import { v4 as uuidv4 } from 'uuid';
+import { setReplyUser } from 'redux/actions/setReplyUser';
 
 interface ChatFormProps {
   setToBottom: Dispatch<SetStateAction<boolean>>;
@@ -14,7 +21,7 @@ interface ChatFormProps {
 export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const [text, setText] = useState('');
   const {
-    auth: { currentUser },
+    auth: { currentUser, toReply },
     content: { content },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
@@ -42,9 +49,20 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      buttonRef.current?.click();
+      setTimeout(() => {
+        buttonRef.current?.click();
+      }, 100);
+      return;
     }
   };
+  useEffect(() => {
+    if (toReply) {
+      const replyTemplate = `${toReply.userName}\n ${text} \n (회신)`;
+      setText(replyTemplate);
+      dispatch(setReplyUser(null));
+      return;
+    }
+  }, [toReply]);
   return (
     <FormConatiner onSubmit={handleSubmit} onKeyDown={e => handleKeyDown(e)}>
       <TextInput
