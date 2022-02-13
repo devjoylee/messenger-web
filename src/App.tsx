@@ -8,17 +8,14 @@ import { getUserData, getContentData } from 'utils';
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const userFetch = async () => {
-      const response = await getUserData('users');
-      dispatch(getUsers(response));
+    const fetcher = async () => {
+      const userResponse = await getUserData('users');
+      dispatch(getUsers(userResponse));
+      const contentResponse = await getContentData();
+      dispatch(getContent(contentResponse));
       return;
     };
-    userFetch();
-    const contentFetch = async () => {
-      const response = await getContentData();
-      dispatch(getContent(response));
-    };
-    contentFetch();
+    fetcher();
   }, [dispatch]);
 
   const {

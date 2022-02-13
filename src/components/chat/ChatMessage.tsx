@@ -5,7 +5,7 @@ import { RootState } from 'redux/reducers';
 import { removeContent, editContent, setReplyContent } from 'redux/actions';
 import { getDate, removeContentData, editContentData } from 'utils';
 import { COLOR, INPUT_HEIGHT } from 'constants/';
-import { Content } from 'types';
+import { Content, User } from 'types';
 import { HiReply } from 'react-icons/hi';
 import { RiEditFill, RiDeleteBin6Fill, RiSendPlane2Fill } from 'react-icons/ri';
 
@@ -24,11 +24,9 @@ export const ChatMessage = ({ message }: ChatMessageProps) => {
 
   const dispatch = useDispatch();
 
-  const user = users.filter(
-    (user: Content) => user.userId === message.userId
-  )[0];
+  const user = users.filter((user: User) => user.userId === message.userId)[0];
 
-  const isLogged = currentUser.userId === user.userId;
+  const isLogged = currentUser!.userId === user.userId;
 
   const showRemoveText = (): void | string => {
     if (message.text.length >= 10) {

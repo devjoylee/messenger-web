@@ -6,20 +6,14 @@ import { COLOR } from 'constants/';
 import { setCurrentUser } from 'redux/actions';
 import { RiLogoutCircleRLine } from 'react-icons/ri';
 
-interface StyleProps {
-  isLogged: boolean;
-}
-
 export const ChatSideNav = () => {
   const {
     auth: { users, currentUser },
   } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const others = users.filter(
-    (user: User) => user.userId !== currentUser.userId
+    (user: User) => user.userId !== currentUser!.userId
   );
-  const loggedArr = [currentUser, ...others];
-
   const handleLogOut = () => {
     dispatch(setCurrentUser(null));
   };
@@ -29,16 +23,14 @@ export const ChatSideNav = () => {
       <LogOut onClick={handleLogOut}>
         <RiLogoutCircleRLine />
       </LogOut>
-      {loggedArr.map((user: User) => {
-        const { userId } = user;
-        const isLogged = currentUser.userId === userId;
+      <NavProfile
+        className="currentUser"
+        src={currentUser!.profileImage}
+        alt="profile"
+      />
+      {others.map((user: User) => {
         return (
-          <NavProfile
-            src={user.profileImage}
-            alt="profile"
-            key={user.userId}
-            isLogged={isLogged}
-          />
+          <NavProfile src={user.profileImage} alt="profile" key={user.userId} />
         );
       })}
     </NavContainer>
@@ -66,9 +58,11 @@ const NavContainer = styled.nav`
   }
 `;
 
-const NavProfile = styled.img<StyleProps>`
-  outline: ${({ isLogged }) =>
-    isLogged ? `5px solid ${COLOR.LOGGED}` : 'none'};
+const NavProfile = styled.img`
+  outline: none;
+  &.currentUser {
+    outline: 5px solid ${COLOR.LOGGED};
+  }
 `;
 
 const LogOut = styled.button`
