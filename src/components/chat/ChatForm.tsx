@@ -49,12 +49,10 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
       setText('');
     }
   };
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      setTimeout(() => {
-        buttonRef.current?.click();
-      }, 100);
+      buttonRef.current?.click();
       return;
     }
   };
@@ -83,7 +81,7 @@ export const ChatForm = ({ setToBottom }: ChatFormProps) => {
   }, [replyObj, dispatch]);
 
   return (
-    <FormConatiner onSubmit={handleSubmit} onKeyDown={e => handleKeyDown(e)}>
+    <FormConatiner onSubmit={handleSubmit} onKeyPress={e => handleKeyPress(e)}>
       <TextInput
         value={text}
         placeholder="메시지를 입력하세요"
